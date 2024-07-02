@@ -81,6 +81,18 @@ def numberToType(index):
             return key
     return ""
 
+def drawNumberInput(selected_stat,field_name,default_value):
+    field = 0
+    if(selected_stat != field_name):
+        field = st.sidebar.number_input(field_name, step=1, value=default_value)
+    return field
+
+def drawTypeChoices(selected_stat,field_name):
+    type = 'Fire'
+    if(selected_stat != field_name):
+        type = st.sidebar.selectbox(field_name, list(type_mapping.keys()))
+    return type
+
 def main():
     st.title('Pokémon Stat Predictor')
 
@@ -93,17 +105,21 @@ def main():
     selected_stat = st.sidebar.selectbox('',choices)
 
     st.sidebar.subheader('Enter Pokémon Stats:')
-    type_1 = st.sidebar.selectbox('Type 1', list(type_mapping.keys()))
-    type_2 = st.sidebar.selectbox('Type 2', list(type_mapping.keys()))
-    total = st.sidebar.number_input('Total', step=1, value=325)
-    attack = st.sidebar.number_input('Attack', step=1, value=50)
-    defense = st.sidebar.number_input('Defense',  step=1, value=50)
-    sp_atk = st.sidebar.number_input('Sp. Atk', step=1, value=65)
-    sp_def = st.sidebar.number_input('Sp. Def',  step=1, value=65)
-    speed = st.sidebar.number_input('Speed',  step=1, value=45)
-    generation = st.sidebar.number_input('Generation', step=1, value=1)
-    hp = st.sidebar.number_input('HP', step=1, value=50)
-    legendary = st.sidebar.checkbox('Legendary')
+
+
+    type_1 = drawTypeChoices(selected_stat,'Type 1') 
+    type_2 = drawTypeChoices(selected_stat,'Type 2') 
+    total = drawNumberInput(selected_stat,'Total',325)
+    attack = drawNumberInput(selected_stat,'Attack',50)
+    defense = drawNumberInput(selected_stat,'Defense',50)
+    sp_atk = drawNumberInput(selected_stat,'Sp. Atk',65)
+    sp_def = drawNumberInput(selected_stat,'Sp. Def',65)
+    speed = drawNumberInput(selected_stat,'Speed',45)
+    generation = drawNumberInput(selected_stat,'Generation',1)
+    hp = drawNumberInput(selected_stat,'HP',50)
+    legendary = False
+    if(selected_stat != 'Legendary'):
+        legendary = st.sidebar.checkbox('Legendary')
 
     pokemon = {
         'Type 1': type_mapping[type_1],
