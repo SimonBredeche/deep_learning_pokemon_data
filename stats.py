@@ -14,7 +14,7 @@ def stats_page():
 
     # Afficher les premières lignes du dataset
     st.subheader("Aperçu des données")
-    st.write(data.head())
+    st.write(data.head(n=15))
 
     # Graphique de distribution des Totaux de statistiques
     st.subheader("Distribution des Totaux de Statistiques")
@@ -41,10 +41,24 @@ def stats_page():
     plt.xticks(rotation=90)
     st.pyplot(fig)
 
-    # Scatter plot des HP vs Attack
-    st.subheader("HP vs Attack")
+    # Nouveau graphique : Nombre de légendaires par génération
+    st.subheader("Nombre de Pokémon Légendaires par Génération")
+    legendary_count = data[data['Legendary'] == True]['Generation'].value_counts().sort_index()
     fig, ax = plt.subplots()
-    sns.scatterplot(x='HP', y='Attack', hue='Type 1', data=data, ax=ax)
+    sns.barplot(x=legendary_count.index, y=legendary_count.values, ax=ax)
+    ax.set_xlabel("Génération")
+    ax.set_ylabel("Nombre de Légendaires")
+    ax.set_title("Nombre de Pokémon Légendaires par Génération")
+    st.pyplot(fig)
+
+    # Nouveau graphique : Nombre de types par génération
+    st.subheader("Nombre de Types par Génération")
+    type_generation_count = data.groupby(['Generation', 'Type 1']).size().unstack(fill_value=0)
+    fig, ax = plt.subplots(figsize=(12, 8))
+    type_generation_count.plot(kind='bar', stacked=True, ax=ax)
+    ax.set_xlabel("Génération")
+    ax.set_ylabel("Nombre de Types")
+    ax.set_title("Nombre de Types de Pokémon par Génération")
     st.pyplot(fig)
 
 if __name__ == "__main__":
