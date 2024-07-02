@@ -88,9 +88,9 @@ def main():
 
     st.sidebar.subheader('Select Stat to Predict:')
 
-    #choices = ('Defense','Attack','Total','')
+    choices = ('Type 1','Type 2','Total','Attack','Defense','Sp. Atk','Sp. Def','Speed','Generation','HP','Legendary')
 
-    selected_stat = st.sidebar.selectbox('', ('Defense','Attack','Total'))
+    selected_stat = st.sidebar.selectbox('',choices)
 
     st.sidebar.subheader('Enter Pokémon Stats:')
     type_1 = st.sidebar.selectbox('Type 1', list(type_mapping.keys()))
